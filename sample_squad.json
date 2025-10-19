@@ -1,0 +1,7 @@
+[
+  {
+    "context": "This is a sample SQuAD context about retrieval-augmented generation (RAG).",
+    "question": "What is RAG?",
+    "answer": "It is a method combining retrieval of external information with generative models."
+  }
+]
