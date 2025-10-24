@@ -57,10 +57,18 @@ however, due to a drive failure, key implementation modules are temporarily unav
 I am actively working on re-implementing core logic for LangChain and Ollama integration.  
 Updates will be committed regularly as modules are recovered or rebuilt.
 
+##  Colab Demo Overview (Oct. 2025):
+This Colab demo showcases a functional Retrieval Augmented Generation (RAG) pipeline using LangChain and HuggingFace’s flan-t5-small LLM. The workflow includes local text data ingestion, document chunking, vector database retrieval (Chroma), and prompt-driven query execution—all without API keys. The demo runs a sample question and retrieves the correct answer from context using a deterministic, lightweight LLM.
+
+Note: Original deployment and API endpoints are not included, but the core RAG logic and retrieval are fully demonstrated.
+
+I created this demo primarily to showcase the key workflow and technical concepts behind the project. Other components and features of the LangChain RAG pipeline will be gradually supplemented in future updates.
+
 ---
 
 ## TODO
 
 - Re-implement ML/NLP core functionality
 - Restore LangChain & Ollama integration
+
 - Add additional evaluation and improvements as time allows
