@@ -11,7 +11,7 @@ Original file is located at
 
 # --- STEP 1: INSTALLATION ---
 
-!pip install --upgrade langchain langchain-community langchain-huggingface langchain-openai chromadb transformers sentencepiece accelerate
+# !pip install --upgrade langchain langchain-community langchain-huggingface langchain-openai chromadb transformers sentencepiece accelerate
 
 import os
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
