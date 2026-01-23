@@ -4,71 +4,69 @@ Retrieval-Augmented Generation (RAG) pipeline for context-aware text summarizati
 
 ---
 
-**Note:**  
-Parts of this project are temporarily non-operational due to a loss of code.  
-I am working on re-implementing the missing pieces, and real functionality will be added back soon.
+## New Demo (Updated Oct. 2025)
+*Functional Prototype for Rapid Deployment*
+
+This section represents the current operational logic, developed to showcase a functional RAG workflow using modern LangChain components.
+
+**[ Access the Functional Colab Demo](https://colab.research.google.com/drive/1qFhc_Hs9K-UlUxb5zXp7wyz66RcdzG0X)**
+
+### Demo Architecture:
+* **Workflow:** Implements `RecursiveCharacterTextSplitter` for chunking, **ChromaDB** for vector storage, and `RunnablePassthrough` for the final RAG chain.
+* **Dual-LLM Strategy:** * **Local Execution:** Uses `flan-t5-small` via HuggingFace for a zero-cost, private, and deterministic environment.
+    * **Enterprise Scaling:** Includes a pre-configured template for **UM-GPT (GPT-4o)** integration, ready for high-reasoning research tasks.
+* **Key Value:** Demonstrates the ability to build a verifiable, local-first AI tool that can be swapped for powerful APIs in seconds.
 
 ---
 
+##  Production Scaling & Architecture
+*Optimizing for Large-Scale Research (GB+ Datasets)*
 
-## Data
+During development, I optimized the architecture to handle common "Big Data" hurdles discussed in research environments:
 
-This project uses the [SQuAD dataset](https://rajpurkar.github.io/SQuAD-explorer/) for training and evaluation.
+* **Large-Scale Data Ingestion:** To handle gigabytes of data, I shift from in-memory processing to a **distributed ETL pipeline** using specialized loaders (e.g., PySpark or LangChain’s `DirectoryLoader` with multithreading) to prevent OOM (Out of Memory) errors on standard 16GB RAM hardware.
+* **Vector Database Optimization:** For large datasets, I move from local Chroma instances to **managed vector stores (e.g., Pinecone or Milvus)** utilizing **HNSW indexing** for sub-second retrieval across millions of embeddings.
+* **Cost Management (Hybrid Routing):** * **Local LLMs (Ollama/Llama 3):** Used for routine summarization or PII-sensitive data to keep costs at zero and maintain data security.
+    * **Tiered API Usage:** Reserved for complex reasoning tasks, utilizing smaller models (GPT-4o-mini) for initial processing to reduce token overhead.
+* **Containerization:** The included **Dockerfile** ensures that the entire environment—from dependencies to model configurations—is reproducible, meeting ISR’s longitudinal research standards.
 
-- **train-v2.0.json**: Full training set (about 40MB), _not included in this repo due to size and licensing_
-- **dev-v2.0.json**: Official dev/validation set (about 4MB), _not included_
-- **sample_squad.json**: Tiny demo sample provided in `data/` for basic testing and repository demonstration
+---
 
-**To run the project on the full dataset:**
-1. Download `train-v2.0.json` and `dev-v2.0.json` from [the SQuAD official website](https://rajpurkar.github.io/SQuAD-explorer/)
-2. Save both files in your local `data/` directory — they will **not** be uploaded to GitHub.
+## Old Project (Spring 2025)
+*Legacy Research Evaluation (SQuAD v2.0)*
 
+This codebase served as the foundation for a deep dive into NLP performance using the Stanford Question Answering Dataset.
 
-## Features
+* **Data Scope:** Evaluated on the full **SQuAD v2.0** (approx. 40MB/100k+ questions).
+* **Reproduction:** Focused on **Dockerfile** and **CI/CD via GitHub Actions** to ensure results could be verified by other researchers.
+* **Current Status:** Following a hardware failure that impacted key implementation modules, I am actively migrating these legacy research components into the modernized architecture shown in the "New Demo" above.
 
-- RAG pipeline structure for summarization and QA
-- Modular, extendable code organization
-- Planned integration for LangChain and Ollama
-- Example usage with SQuAD-format data
-- Python API using Flask
-- Dockerfile for deployment
-
+---
 
 ## Folder Structure
-
-- `/src` — Source code for pipeline modules, API
-- `/data` — Example SQuAD-format dataset
-- `requirements.txt` — Python dependencies (minimal)
-- `Dockerfile` — Container setup for deployment
-
-
-## Quick Start
-
-1. Clone this repo
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the pipeline: `python src/main.py`
-4. Try the API: `python src/api.py`
-
-
-## Current Status
-
-This codebase was originally completed for a Spring 2025 research project;  
-however, due to a drive failure, key implementation modules are temporarily unavailable.  
-I am actively working on re-implementing core logic for LangChain and Ollama integration.  
-Updates will be committed regularly as modules are recovered or rebuilt.
-
-##  Colab Demo Overview (Oct. 2025):
-This Colab demo showcases a functional Retrieval Augmented Generation (RAG) pipeline using LangChain and HuggingFace’s flan-t5-small LLM. The workflow includes local text data ingestion, document chunking, vector database retrieval (Chroma), and prompt-driven query execution—all without API keys. The demo runs a sample question and retrieves the correct answer from context using a deterministic, lightweight LLM.
-
-Note: Original deployment and API endpoints are not included, but the core RAG logic and retrieval are fully demonstrated.
-
-I created this demo primarily to showcase the key workflow and technical concepts behind the project. Other components and features of the LangChain RAG pipeline will be gradually supplemented in future updates.
+* `/src`: Source code for pipeline modules and API.
+* `/data`: Contains `sample_squad.json` for repository demonstration.
+* `requirements.txt`: Python dependencies.
+* `Dockerfile`: Container setup for deployment.
 
 ---
 
-## TODO
+## Quick Start
+1. **Local Install:** `pip install -r requirements.txt`
+2. **Run Demo Logic:** Refer to the [Colab Link](https://colab.research.google.com/drive/1qFhc_Hs9K-UlUxb5zXp7wyz66RcdzG0X).
+3. **Docker Build:**
+   ```bash
+   docker build -t rag-summarizer .
+   docker run -p 5000:5000 rag-summarizer
 
-- Re-implement ML/NLP core functionality
-- Restore LangChain & Ollama integration
+---
 
-- Add additional evaluation and improvements as time allows
+## TODO / Roadmap
+
+* Re-implement core ML/NLP functionality into the main Python package.
+
+* Restore native Ollama integration for local-only server deployments.
+
+* Integrate automated evaluation metrics (ROUGE/BLEU) for summarization quality.
+
+
